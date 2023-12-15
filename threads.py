@@ -1,5 +1,6 @@
 import time 
 from threading import Thread
+from concurrent.futures import ThreadPoolExecutor
 
 # We can create a Thread from the OS and allow us to run another piece of code in the Thread
 
@@ -44,3 +45,14 @@ functions would slow down the code!
 Instead, for operations such as prompting for an User Input and we want to run a one computationally heavy process,
 then Threads is recommended!
 '''
+
+
+# We can run concurrent Threads in a more elegant way
+start = time.time()
+
+with ThreadPoolExecutor(max_workers=2) as pool:
+	pool.submit(complex_calc)
+	pool.submit(ask_user)
+
+# All this does is we don't have to call pool.shutdown()
+print('Two thread total time: ', time.time() - start)
